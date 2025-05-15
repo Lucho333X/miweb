@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CANARY FILM FUND</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap" rel="stylesheet">
+   <style>
+    * {
+        box-sizing: border-box;
+    }
+
+    html, body {
+        margin: 0;
+        padding: 0;
+        overflow-x: hidden;
+        width: 100%;
+    }
+
+    body { 
+        font-family: 'Inter', Arial, sans-serif; 
+    }
+
+    h1, h2, h3 { 
+        font-family: 'Helvetica Neue', Arial, sans-serif; 
+        font-weight: normal; 
+    }
+
+    nav a {
+        position: relative;
+        transition: all 0.3s ease-in-out;
+    }
+
+    nav a::after {
+        content: '';
+        position: absolute;
+        width: 0;
+        height: 1px;
+        bottom: -2px;
+        left: 0;
+        background-color: black;
+        transition: width 0.3s ease-in-out;
+    }
+
+    nav a:hover::after {
+        width: 100%;
+    }
+
+    nav a:hover {
+        color: #4B5563;
+    }
+
+    .section {
+        opacity: 0;
+        transform: translateY(20px);
+        transition: opacity 0.6s ease-in-out, transform 0.6s ease-in-out;
+    }
+
+    .section.visible {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    .section .item {
+        opacity: 0;
+        transform: translateY(10px);
+        transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+    }
+
+    .section.visible .item {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    .section.visible .item:nth-child(1) { transition-delay: 0.15s; }
+    .section.visible .item:nth-child(2) { transition-delay: 0.3s; }
+    .section.visible .item:nth-child(3) { transition-delay: 0.45s; }
+    .section.visible .item:nth-child(4) { transition-delay: 0.6s; }
+
+    .project-card {
+        background: #D1D5DB;
+        color: white;
+        transition: background 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+        transform: rotate(90deg);
+    }
+
+    .project-card:hover {
+        background: black;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .project-card h3 {
+        color: white;
+        transition: transform 0.3s ease-in-out;
+    }
+
+    .project-card:hover h3 {
+        transform: rotate(-90deg);
+    }
+
+    .contact-input {
+        background: transparent;
+        border: none;
+        border-bottom: 1px solid #D1D5DB;
+        color: #D1D5DB;
+        outline: none;
+    }
+
+    .contact-button {
+        transition: all 0.3s ease-in-out;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .contact-button:hover {
+        background: black;
+        color: #D1D5DB;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    }
+
+    .info-button {
+        transition: all 0.3s ease-in-out;
+        border: 1px solid #D1D5DB;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .info-button:hover {
+        background: #D1D5DB;
+        color: black;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    }
+
+    .lang-selected {
+        color: black;
+    }
+
+    .lang-unselected {
+        color: #6B7280;
+    }
+
+    .footer-link:hover {
+        color: #4B5563;
+    }
+
+    html {
+        scroll-behavior: smooth;
+        scroll-padding-top: 80px; /* Compensar encabezado fijo */
+    }
+
+    .font-inter {
+        font-family: 'Inter', Arial, sans-serif;
+    }
+
+    @media (max-width: 768px) {
+        .project-card {
+            width: 8rem;
+            height: 24rem;
+        }
+
+        #inicio h2 {
+            font-size: 6rem;
+        }
+
+        #proyectos .flex {
+            flex-direction: column;
+            align-items: center;
+            gap: 8rem;
+        }
+
+        #sobre-nosotros .max-w-3xl {
+            max-width: 100%;
+        }
+    }
+</style>
+<body class="bg-white text-black">
+    <!-- Encabezado -->
+    <header class="py-6 fixed w-full bg-white z-10">
+        <div class="container mx-auto px-2 flex justify-between items-center">
+            <h1 class="text-xl uppercase"><span class="font-bold">CANARY</span>FILMFUND</h1>
+            <nav class="flex items-center space-x-6">
+                <a href="#sobre-nosotros" class="text-sm uppercase" data-es="Sobre Nosotros" data-en="About Us">Sobre Nosotros</a>
+                <a href="#canarias" class="text-sm uppercase" data-es="Por Qué Canarias" data-en="Why Canaries">Por Qué Canarias</a>
+                <a href="#proyectos" class="text-sm uppercase" data-es="Proyectos" data-en="Projects">Proyectos</a>
+                <a href="#inversores" class="text-sm uppercase" data-es="Inversores" data-en="Investors">Inversores</a>
+                <a href="#equipo" class="text-sm uppercase" data-es="Equipo" data-en="Team">Equipo</a>
+                <a href="#contacto" class="text-sm uppercase" data-es="Contacto" data-en="Contact">Contacto</a>
+                <div class="flex items-center space-x-2">
+                    <button id="lang-en" class="text-sm uppercase lang-unselected" data-es="EN" data-en="EN">EN</button>
+                    <span class="text-gray-500">|</span>
+                    <button id="lang-es" class="text-sm uppercase lang-selected" data-es="ES" data-en="ES">ES</button>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Página 1: Inicio -->
+    <section id="inicio" class="min-h-screen flex items-center justify-center section bg-white">
+        <div class="container mx-auto px-4 text-center">
+            <h2 class="text-8xl uppercase item text-black" data-es="CANARY FILM FUND" data-en="CANARY FILM FUND">CANARY FILM FUND</h2>
+            <p class="text-lg max-w-2xl mx-auto mt-6 item" data-es="Invertimos en mundos cinematográficos construidos desde cero donde la calidad nunca se compromete." data-en="We invest in cinematic worlds built from scratch where quality is never compromised.">Invertimos en mundos cinematográficos construidos desde cero donde la calidad nunca se compromete.</p>
+        </div>
+    </section>
+
+    <!-- Página 2: Sobre Nosotros -->
+    <section id="sobre-nosotros" class="min-h-screen flex items-center justify-center section bg-white">
+        <div class="container mx-auto px-4 text-center">
+            <p class="text-lg max-w-3xl mx-auto mb-6 item" data-es="La industria audiovisual atraviesa una etapa de expansión sin precedentes, pero también de exigencia máxima. Los proyectos con verdadero valor ya no permiten improvisaciones: cada decisión estratégica debe tomarse con rigor, visión y precisión." data-en="The audiovisual industry is undergoing an unprecedented stage of expansion, but also of maximum demand. Projects with true value no longer allow for improvisations: every strategic decision must be made with rigor, vision, and precision.">La industria audiovisual atraviesa una etapa de expansión sin precedentes, pero también de exigencia máxima. Los proyectos con verdadero valor ya no permiten improvisaciones: cada decisión estratégica debe tomarse con rigor, visión y precisión.</p>
+            <p class="text-4xl max-w-3xl mx-auto mb-8 item font-bold" data-es="¿Y si el secreto está en producir de manera diferente?" data-en="What if the secret lies in producing differently?">¿Y si el secreto está en producir de manera diferente?</p>
+            <p class="text-lg max-w-3xl mx-auto item" data-es="Creemos en un lugar donde cada historia se convierte en una experiencia, y la calidad no es una promesa, es el estándar." data-en="We believe in a place where every story becomes an experience, and quality is not a promise, it is the standard.">Creemos en un lugar donde cada historia se convierte en una experiencia, y la calidad no es una promesa, es el estándar.</p>
+        </div>
+    </section>
+
+    <!-- Página 3: Por Qué Canarias -->
+    <section id="canarias" class="py-16 bg-black text-gray-300 section">
+        <div class="container mx-auto px-4">
+            <h2 class="text-5xl mb-8 item text-white" data-es="¿Por Qué las Islas Canarias?" data-en="Why the Canary Islands?">¿Por Qué las Islas Canarias?</h2>
+            <p class="text-lg max-w-2xl mb-6 item" data-es="Las Islas Canarias son más que un paraíso fiscal, son un paraíso creativo." data-en="The Canary Islands are more than a tax haven; they are a creative paradise.">Las Islas Canarias son más que un paraíso fiscal, son un paraíso creativo.</p>
+            <p class="text-lg max-w-2xl mb-6 item" data-es="Un ecosistema único donde localizaciones impresionantes se combinan con ventajas fiscales imbatibles." data-en="A unique ecosystem where stunning locations combine with unbeatable tax incentives.">Un ecosistema único donde localizaciones impresionantes se combinan con ventajas fiscales imbatibles.</p>
+            <p class="text-lg max-w-2xl mb-6 item" data-es="Producir completamente en las islas significa crear de manera diferente: con libertad, visión y una estructura inigualable." data-en="Producing entirely in the islands means creating differently: with freedom, vision, and an unmatched structure.">Producir completamente en las islas significa crear de manera diferente: con libertad, visión y una estructura inigualable.</p>
+            <p class="text-lg max-w-2xl mb-6 item" data-es="Aquí es donde nacen las historias distintivas y donde prosperan." data-en="This is where distinctive stories are born and thrive.">Aquí es donde nacen las historias distintivas y donde prosperan.</p>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mt-12">
+                <div class="item max-w-xs mx-auto">
+                    <h3 class="text-xl mb-4 text-white" data-es="Libertad Creativa" data-en="Creative Freedom">Libertad Creativa</h3>
+                    <p data-es="Paisajes diversos desde terrenos volcánicos hasta bosques exuberantes y playas vírgenes, todo a cortas distancias." data-en="Diverse landscapes from volcanic terrains to lush forests and pristine beaches, all within short distances.">Paisajes diversos desde terrenos volcánicos hasta bosques exuberantes y playas vírgenes, todo a cortas distancias.</p>
+                </div>
+                <div class="item max-w-xs mx-auto">
+                    <h3 class="text-xl mb-4 text-white" data-es="Ventaja Fiscal" data-en="Tax Advantage">Ventaja Fiscal</h3>
+                    <p data-es="Hasta un 50% de desgravación fiscal para producciones internacionales, entre las más competitivas de Europa." data-en="Up to 50% tax relief for international productions, among the most competitive in Europe.">Hasta un 50% de desgravación fiscal para producciones internacionales, entre las más competitivas de Europa.</p>
+                </div>
+                <div class="item max-w-xs mx-auto">
+                    <h3 class="text-xl mb-4 text-white" data-es="Ubicación Estratégica" data-en="Strategic Location">Ubicación Estratégica</h3>
+                    <p data-es="Territorio europeo con proximidad africana y condiciones perfectas para filmar durante todo el año." data-en="European territory with African proximity and perfect filming conditions year-round.">Territorio europeo con proximidad africana y condiciones perfectas para filmar durante todo el año.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Página 4: Proyectos Seleccionados -->
+    <section id="proyectos" class="py-12 section bg-white">
+        <div class="container mx-auto px-4 max-w-7xl">
+            <h2 class="text-5xl mb-8 item text-black" data-es="Proyectos Seleccionados" data-en="Selected Projects">Proyectos Seleccionados</h2>
+            <p class="text-lg max-w-2xl mb-8 item" data-es="Seleccionamos proyectos que se rueden íntegramente o, en su mayoría, en Canarias." data-en="We select projects that are filmed entirely or mostly in the Canary Islands.">Seleccionamos proyectos que se rueden íntegramente o, en su mayoría, en Canarias.</p>
+            <div class="flex flex-wrap justify-between gap-24">
+                <div class="text-left item">
+                    <div class="project-card w-48 h-[36rem] flex items-center justify-center rounded">
+                        <h3 class="text-3xl text-center" data-es="FRÁGIL" data-en="FRAGILE">FRÁGIL</h3>
+                    </div>
+                    <div class="mt-0.5">
+                        <p class="font-inter text-sm" data-es="LARGOMETRAJE" data-en="FEATURE FILM">LARGOMETRAJE</p>
+                        <p class="mt-0.5 text-sm" data-es="En Desarrollo" data-en="In Development">En Desarrollo</p>
+                    </div>
+                </div>
+                <div class="text-left item">
+                    <div class="project-card w-48 h-[36rem] flex items-center justify-center rounded">
+                        <h3 class="text-3xl text-center" data-es="AGDM" data-en="AGDM">AGDM</h3>
+                    </div>
+                    <div class="mt-0.5">
+                        <p class="font-inter text-sm" data-es="SERIE DE TV" data-en="TV SERIES">SERIE DE TV</p>
+                        <p class="mt-0.5 text-sm" data-es="En Desarrollo" data-en="In Development">En Desarrollo</p>
+                    </div>
+                </div>
+                <div class="text-left item">
+                    <div class="project-card w-48 h-[36rem] flex items-center justify-center rounded">
+                        <h3 class="text-3xl text-center" data-es="PUNTO DE QUIEBRE" data-en="BREAKING POINT">PUNTO DE QUIEBRE</h3>
+                    </div>
+                    <div class="mt-0.5">
+                        <p class="font-inter text-sm" data-es="SERIE DE TV" data-en="TV SERIES">SERIE DE TV</p>
+                        <p class="mt-0.5 text-sm" data-es="En Desarrollo" data-en="In Development">En Desarrollo</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Página 5: Inversores -->
+    <section id="inversores" class="py-16 bg-black text-gray-300 section">
+        <div class="container mx-auto px-4">
+            <h2 class="text-5xl mb-8 item text-white" data-es="Inversores" data-en="Investors">Inversores</h2>
+            <p class="text-lg max-w-2xl mb-4 item" data-es="Proporcionamos acceso a un espacio donde el cine se convierte en legado." data-en="We provide access to a space where cinema becomes a legacy.">Proporcionamos acceso a un espacio donde el cine se convierte en legado.</p>
+            <p class="text-lg max-w-2xl mb-8 item" data-es="Asociarse con CANARY FILM FUND significa ser parte de un sistema donde la integridad creativa y la estrategia financiera se encuentran." data-en="Partnering with CANARY FILM FUND means being part of a system where creative integrity and financial strategy converge.">Asociarse con CANARY FILM FUND significa ser parte de un sistema donde la integridad creativa y la estrategia financiera se encuentran.</p>
+            <a href="#contacto" class="inline-block info-button bg-black text-gray-300 px-4 py-2 rounded transition item" data-es="SOLICITAR INFORMACIÓN" data-en="REQUEST INFORMATION">SOLICITAR INFORMACIÓN</a>
+        </div>
+    </section>
+
+    <!-- Página 6: Equipo -->
+    <section id="equipo" class="py-16 section bg-white">
+        <div class="container mx-auto px-4">
+            <h2 class="text-5xl mb-8 item text-black" data-es="Equipo" data-en="Team">Equipo</h2>
+            <p class="text-lg max-w-2xl mb-6 item" data-es="Conectamos el potencial estratégico de Canarias con una visión global del negocio audiovisual." data-en="We connect the strategic potential of the Canaries with a global vision of the audiovisual business.">Conectamos el potencial estratégico de Canarias con una visión global del negocio audiovisual.</p>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-8">
+                <div class="item max-w-sm">
+                    <h3 class="text-xl mb-4 text-white" data-es="Experiencia en Inversión" data-en="Investment Expertise">Experiencia en Inversión</h3>
+                    <p data-es="Nuestro equipo financiero aporta décadas de experiencia en la estructuración de inversiones cinematográficas que maximizan tanto el potencial creativo como las ventajas fiscales." data-en="Our financial team brings decades of experience in structuring cinematic investments that maximize both creative potential and tax benefits.">Nuestro equipo financiero aporta décadas de experiencia en la estructuración de inversiones cinematográficas que maximizan tanto el potencial creativo como las ventajas fiscales.</p>
+                </div>
+                <div class="item max-w-sm">
+                    <h3 class="text-xl mb-4 text-white" data-es="Expertos en Producción" data-en="Production Experts">Expertos en Producción</h3>
+                    <p data-es="Con experiencia en producciones internacionales, nuestros asesores entienden lo que hace viable un proyecto desde el concepto hasta la pantalla." data-en="With experience in international productions, our advisors understand what makes a project viable from concept to screen.">Con experiencia en producciones internacionales, nuestros asesores entienden lo que hace viable un proyecto desde el concepto hasta la pantalla.</p>
+                </div>
+                <div class="item max-w-sm">
+                    <h3 class="text-xl mb-4 text-white" data-es="Estrategia Legal" data-en="Legal Strategy">Estrategia Legal</h3>
+                    <p data-es="Nuestros expertos legales navegan por la compleja intersección de la financiación cinematográfica internacional, los tratados de coproducción y los incentivos de las Islas Canarias." data-en="Our legal experts navigate the complex intersection of international film financing, co-production treaties, and Canary Islands incentives.">Nuestros expertos legales navegan por la compleja intersección de la financiación cinematográfica internacional, los tratados de cop харчування y los incentivos de las Islas Canarias.</p>
+                </div>
+                <div class="item max-w-sm">
+                    <h3 class="text-xl mb-4 text-white" data-es="Optimización Fiscal" data-en="Tax Optimization">Optimización Fiscal</h3>
+                    <p data-es="Nos especializamos en aprovechar las ventajas fiscales únicas de las Islas Canarias para crear modelos de producción sostenibles." data-en="We specialize in leveraging the unique tax advantages of the Canary Islands to create sustainable production models.">Nos especializamos en aprovechar las ventajas fiscales únicas de las Islas Canarias para crear modelos de producción sostenibles.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Página 7: Contacto -->
+    <section id="contacto" class="py-16 bg-black text-gray-300 section">
+        <div class="container mx-auto px-4">
+            <h2 class="text-5xl mb-8 item text-white" data-es="Contacto" data-en="Contact">Contacto</h2>
+            <div class="max-w-2xl mx-auto">
+                <div class="mb-4 item">
+                    <label for="nombre" class="block mb-2" data-es="Nombre" data-en="Name">Nombre</label>
+                    <input type="text" id="nombre" class="w-full p-3 contact-input" placeholder="Tu nombre" required>
+                </div>
+                <div class="mb-4 item">
+                    <label for="correo" class="block mb-2" data-es="Correo" data-en="Email">Correo</label>
+                    <input type="email" id="correo" class="w-full p-3 contact-input" placeholder="Tu correo" required>
+                </div>
+                <div class="mb-4 item">
+                    <label for="mensaje" class="block mb-2" data-es="Mensaje" data-en="Message">Mensaje</label>
+                    <input type="text" id="mensaje" class="w-full p-3 contact-input" placeholder="Tu mensaje" maxlength="100" required>
+                </div>
+                <button type="button" class="w-full contact-button bg-white text-black p-3 rounded transition item" data-es="Enviar Mensaje" data-en="Send Message">Enviar Mensaje</button>
+            </div>
+            <div class="mt-12 grid grid-cols-2 gap-4 text-center">
+                <div>
+                    <h3 class="text-xl mb-4 item text-gray-500 uppercase" data-es="CORREO" data-en="EMAIL">CORREO</h3>
+                    <p class="item text-white" data-es="info@canaryfilmfund.com" data-en="info@canaryfilmfund.com">info@canaryfilmfund.com</p>
+                </div>
+                <div>
+                    <h3 class="text-xl mb-4 item text-gray-500 uppercase" data-es="UBICACIÓN" data-en="LOCATION">UBICACIÓN</h3>
+                    <p class="item text-white" data-es="Santa Cruz de Tenerife, Islas Canarias" data-en="Santa Cruz de Tenerife, Canary Islands">Santa Cruz de Tenerife, Islas Canarias</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pie de Página -->
+    <footer class="py-12 border-t border-gray-200 section">
+        <div class="container mx-auto px-4">
+            <div class="flex items-center justify-between">
+                <h2 class="text-2xl uppercase item"><span class="font-bold">CANARY</span>FILMFUND</h2>
+                <div class="flex items-center space-x-4 text-sm uppercase text-gray-300">
+                    <a href="#sobre-nosotros" class="footer-link item" data-es="SOBRE NOSOTROS" data-en="ABOUT US">SOBRE NOSOTROS</a>
+                    <span class="text-gray-300">|</span>
+                    <a href="#canarias" class="footer-link item" data-es="POR QUÉ CANARIAS" data-en="WHY CANARIES">POR QUÉ CANARIAS</a>
+                    <span class="text-gray-300">|</span>
+                    <a href="#proyectos" class="footer-link item" data-es="PROYECTOS" data-en="PROJECTS">PROYECTOS</a>
+                    <span class="text-gray-300">|</span>
+                    <a href="#inversores" class="footer-link item" data-es="INVERSORES" data-en="INVESTORS">INVERSORES</a>
+                </div>
+            </div>
+            <p class="text-sm text-gray-300 mt-4 text-left item" data-es="© 2023 CANARY FILM FUND. Todos los derechos reservados." data-en="© 2023 CANARY FILM FUND. All rights reserved.">© 2023 CANARY FILM FUND. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Cambio de idioma
+        const langEn = document.getElementById('lang-en');
+        const langEs = document.getElementById('lang-es');
+        let currentLang = 'es';
+
+        const translations = {
+            es: {},
+            en: {}
+        };
+
+        document.querySelectorAll('[data-es][data-en]').forEach(el => {
+            translations.es[el.getAttribute('data-es')] = el.textContent;
+            translations.en[el.getAttribute('data-en')] = el.getAttribute('data-en');
+            el.setAttribute('data-key', el.getAttribute('data-es'));
+        });
+
+        function setLanguage(lang) {
+            currentLang = lang;
+            langEn.classList.toggle('lang-selected', lang === 'en');
+            langEn.classList.toggle('lang-unselected', lang !== 'en');
+            langEs.classList.toggle('lang-selected', lang === 'es');
+            langEs.classList.toggle('lang-unselected', lang !== 'es');
+
+            document.querySelectorAll('[data-es][data-en]').forEach(el => {
+                const key = el.getAttribute('data-key');
+                el.textContent = translations[currentLang][key] || el.textContent;
+            });
+
+            document.getElementById('nombre').placeholder = currentLang === 'es' ? 'Tu nombre' : 'Your name';
+            document.getElementById('correo').placeholder = currentLang === 'es' ? 'Tu correo' : 'Your email';
+            document.getElementById('mensaje').placeholder = currentLang === 'es' ? 'Tu mensaje' : 'Your message';
+        }
+
+        langEn.addEventListener('click', () => setLanguage('en'));
+        langEs.addEventListener('click', () => setLanguage('es'));
+
+        // Manejo del formulario
+        document.querySelector('button[type="button"]').addEventListener('click', () => {
+            alert(currentLang === 'es' ? 'Mensaje enviado. ¡Nos pondremos en contacto contigo pronto!' : 'Message sent. We’ll get in touch with you soon!');
+            document.querySelectorAll('input').forEach(el => el.value = '');
+        });
+
+        // Animación de scroll
+        const sections = document.querySelectorAll('.section');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        sections.forEach(section => observer.observe(section));
+
+        // Desplazamiento suave
+        document.querySelectorAll('nav a, footer a').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href').substring(1);
+                const targetElement = document.getElementById(targetId);
+                if (targetElement) {
+                    targetElement.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
